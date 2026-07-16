@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Enter file <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
         * { font-family: 'Google Sans', sans-serif; }
         body { background: #0b0c10; color: #e2e8f0; }
         .premium-card { background: #121420; border: 1px solid #1f2335; border-radius: 20px; }
-        .video-input { width:100%; padding:12px 16px; border:1px solid #1f2335; border-radius:12px; background:#17192a; color:#fff; outline:none; transition:0.2s; font-size:14px; }
+        .video-input { width:100%; padding:12px 16px; border:1px solid #1f2335; border-radius:12px; background:#17192a; color:#fff; outline:none; transition:0.2s; font-size:14px; position:relative; z-index:10; }
         .video-input:focus { border-color:#a855f7; box-shadow:0 0 0 3px rgba(168,85,247,0.2); }
         .video-input::placeholder { color:#4a4d6e; }
         #sidebar { transition: transform 0.3s ease-in-out; z-index:40; }
@@ -58,79 +58,39 @@
         .modal-box .video-input { margin-bottom: 12px; }
         .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 16px; }
 
-        /* ===== 3D EFFECTS ===== */
-        #app-view { perspective: 1400px; transform-style: preserve-3d; }
-        /* NOTE: .video-input is removed from here to fix mobile keyboard issue */
-        .premium-card, .location-card, .pass-card, .btn-primary, .verify-btn, .flag-btn,
-        .staff-edit-form, .dropdown-toggle, .nav-item, h1, h2, h3, h4, h5, h6, p, label, span,
-        .role-badge, .verify-badge, .lang-icon, .pass-card div, .pass-card p, .pass-card h3,
-        #sidebar, header, .modal-box, .dropdown-content, .location-card div, .premium-card div,
-        .staff-edit-form div, .flag-btn {
-            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1), box-shadow 0.25s ease, text-shadow 0.25s ease;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-            will-change: transform;
+        /* ===== SAFE HOVER EFFECTS (FIXED FOR MOBILE TOUCH) ===== */
+        .premium-card, .location-card, .pass-card, .btn-primary, .verify-btn, .flag-btn, .nav-item, .modal-box {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .premium-card:hover, .location-card:hover, .pass-card:hover, .staff-edit-form:hover, .modal-box:hover {
-            transform: rotateY(3deg) rotateX(2deg) translateZ(18px);
-            box-shadow: 0 25px 50px rgba(168,85,247,0.25), 0 0 60px rgba(168,85,247,0.08);
+        .premium-card:hover, .location-card:hover, .pass-card:hover, .modal-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(168,85,247,0.2), 0 0 40px rgba(168,85,247,0.1);
         }
         .btn-primary:hover, .verify-btn:hover, .flag-btn:hover {
-            transform: translateZ(12px) scale(1.03);
-            box-shadow: 0 12px 35px rgba(168,85,247,0.25);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(168,85,247,0.25);
         }
-        /* Safely applying hover shadow to input without breaking mobile touch */
         .video-input:hover {
-            box-shadow: 0 12px 35px rgba(168,85,247,0.15);
+            box-shadow: 0 8px 25px rgba(168,85,247,0.15);
         }
-        h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover, p:hover, label:hover, span:hover,
-        .role-badge:hover, .verify-badge:hover, .lang-icon:hover {
-            transform: translateZ(6px);
-            text-shadow: 0 0 20px rgba(168,85,247,0.25), 0 0 40px rgba(168,85,247,0.08);
-        }
-        #sidebar { transform-style: preserve-3d; perspective: 900px; }
-        #sidebar:hover { transform: rotateY(2deg) rotateX(1deg); }
-        .nav-item { transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease; transform-style: preserve-3d; }
-        .nav-item:hover { transform: translateX(10px) translateZ(12px); box-shadow: 0 5px 25px rgba(168,85,247,0.15); }
-        header { transform-style: preserve-3d; perspective: 700px; }
-        header:hover { transform: rotateX(1.5deg); }
-        .dropdown-content { transform-style: preserve-3d; }
-        .dropdown-content:hover { transform: translateZ(5px); }
-        #homepage-highlights-grid .premium-card:hover, #homepage-voices-grid .premium-card:hover {
-            transform: rotateY(4deg) rotateX(2deg) translateZ(22px);
-            box-shadow: 0 30px 60px rgba(168,85,247,0.3), 0 0 70px rgba(168,85,247,0.1);
+        .nav-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 5px 20px rgba(168,85,247,0.15);
         }
         .modal-overlay.active { animation: modalFadeIn 0.3s ease; }
-        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95) rotateX(5deg); } to { opacity: 1; transform: scale(1) rotateX(0); } }
-        @media (max-width: 768px) {
-            .premium-card:hover, .location-card:hover, .pass-card:hover { transform: rotateY(1deg) rotateX(1deg) translateZ(8px); }
-            .btn-primary:hover, .verify-btn:hover { transform: translateZ(6px) scale(1.02); }
-            h1:hover, h2:hover, h3:hover, p:hover, label:hover { transform: translateZ(3px); }
-            #sidebar:hover { transform: rotateY(1deg); }
-        }
-
-        /* ===== FIX: Input touch/focus on mobile ===== */
-        .video-input, input, textarea, select, button {
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        /* ===== FIX: Input touch/focus on mobile (Force OS interaction) ===== */
+        input, textarea, select, button, .video-input, label {
             pointer-events: auto !important;
             touch-action: manipulation !important;
             -webkit-user-select: auto !important;
             user-select: auto !important;
-            transform: none !important; /* Prevents 3D from blocking taps */
         }
-        #auth-view, .modal-overlay, .modal-box {
+        #auth-view {
             pointer-events: auto !important;
-        }
-        .modal-overlay.active {
-            pointer-events: auto !important;
-        }
-        .modal-box input, .modal-box select, .modal-box textarea,
-        #staff-setup-box input, #staff-setup-box select, #staff-setup-box textarea {
-            pointer-events: auto !important;
-            touch-action: manipulation !important;
-        }
-        #staff-setup-box, #staff-setup-box * {
-            pointer-events: auto !important;
-            touch-action: manipulation !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
@@ -472,8 +432,8 @@
     const EMAILJS_CONFIG = {
         publicKey: 'quJ_8xTjJqys_cdsN',
         serviceID: 'service_n02e9a8',
-        otpTemplateID: 'YOUR_OTP_TEMPLATE_ID',   // Replace with your OTP template ID
-        staffTemplateID: 'template_qfqekfc'      // Staff invite template ID (provided)
+        otpTemplateID: 'YOUR_OTP_TEMPLATE_ID',   
+        staffTemplateID: 'template_qfqekfc'      
     };
     emailjs.init(EMAILJS_CONFIG.publicKey);
 
@@ -517,15 +477,9 @@
 
     let currentUser = null;
     let regStep = 1;
-    let phoneVerificationId = null;
-    let phoneVerificationIdSetup = null;
-    let phoneVerificationIdLogin = null;
     let phoneVerificationIdProfile = null;
     let emailOtp = null;
     let searchTimer;
-    let recaptchaVerifier = null;
-    let recaptchaVerifierSetup = null;
-    let recaptchaVerifierLogin = null;
     let recaptchaVerifierProfile = null;
 
     let cache = {
@@ -606,7 +560,7 @@
     }
 
     // ========================================================================
-    // REGISTRATION (with password, no phone OTP)
+    // REGISTRATION
     // ========================================================================
     function resetRegForm() {
         regStep = 1;
@@ -750,13 +704,17 @@
                             enterApp();
                         }
                     })
-                    .catch(err => alert('Registration error: ' + err.message));
+                    .catch(err => {
+                        $('payment-box').classList.add('hidden');
+                        $('register-box').classList.remove('hidden');
+                        alert('Registration error: ' + err.message);
+                    });
             }
         }, 1000);
     }
 
     // ========================================================================
-    // STAFF SETUP (NO phone verification)
+    // STAFF SETUP
     // ========================================================================
     function setupStaff(e) {
         e.preventDefault();
@@ -797,7 +755,7 @@
     }
 
     // ========================================================================
-    // STAFF INVITE & MANAGEMENT (FIXED: invitation link sending)
+    // STAFF INVITE & MANAGEMENT
     // ========================================================================
     function openInviteStaff() {
         $('invite-staff-form').classList.toggle('hidden');
@@ -831,7 +789,7 @@
         };
         await DB.add('staff', staffData);
         $('invite-staff-form').classList.add('hidden');
-        // Generate invite link
+        
         const inviteLink = window.location.origin + window.location.pathname + '?invite=' + encodeURIComponent(email);
         const templateParams = {
             to_email: email,
@@ -841,12 +799,10 @@
             target: target
         };
         try {
-            // Use staff template ID
             await emailjs.send(EMAILJS_CONFIG.serviceID, EMAILJS_CONFIG.staffTemplateID, templateParams);
             alert('✅ Invitation sent to ' + email);
         } catch (error) {
             console.error('EmailJS error:', error);
-            // Fallback: show the link in alert so user can manually share
             alert('⚠️ Email could not be sent. Please use this link to invite:\n' + inviteLink);
         }
         renderStaffList();
@@ -1316,7 +1272,7 @@
     }
 
     // ========================================================================
-    // STAFF CONTESTANTS (multi-level matching)
+    // STAFF CONTESTANTS
     // ========================================================================
     async function renderStaffContestants() {
         const staffList = await fetchData('staff');
@@ -1571,7 +1527,7 @@
     }
 
     // ========================================================================
-    // CONTESTANT PROFILE (with phone verification)
+    // CONTESTANT PROFILE 
     // ========================================================================
     async function renderContestantProfile() {
         const container = $('contestant-profile-content');
@@ -1640,7 +1596,6 @@
                 <div class="col-span-2 text-xs text-gray-500 mt-2"><i class="fa-regular fa-circle-info"></i> Verify your phone by clicking the button above. OTP will be sent via SMS.</div>
             </div>
         `;
-        // Auto-verify listeners
         const emailOtpInput = $('profileEmailOtp');
         if (emailOtpInput) {
             emailOtpInput.removeEventListener('input', autoVerifyProfileEmail);
@@ -1653,7 +1608,6 @@
         }
     }
 
-    // ---- Phone verification on profile (with visible reCAPTCHA) ----
     async function sendProfilePhoneOTP() {
         const c = await getCurrentContestant();
         if (!c) { alert('No profile found.'); return; }
@@ -1719,7 +1673,6 @@
         }
     }
 
-    // ---- Email verification ----
     async function sendProfileEmailOTP() {
         const c = await getCurrentContestant();
         if (!c) { alert('No profile found.'); return; }
@@ -1742,7 +1695,7 @@
             if ($('profileEmailOtp').value.length === 6) verifyProfileEmailOTP();
         } catch (error) {
             console.error('EmailJS error:', error);
-            $('profile-email-otp-status').innerText = '⚠️ Failed to send email. Check console.';
+            $('profile-email-otp-status').innerText = '⚠️ Failed to send email.';
             $('profile-email-otp-status').style.color = '#f87171';
             alert(`⚠️ Email could not be sent. Your OTP is: ${otp}\nPlease use this OTP to verify.`);
         }
@@ -1800,9 +1753,7 @@
         const highlights = settings?.highlights || [{ icon: 'fa-solid fa-star', title: 'Dance', text: 'Show your moves.' },
             { icon: 'fa-solid fa-star', title: 'Model', text: 'Walk the ramp.' }, { icon: 'fa-solid fa-star', title: 'Sing', text: 'Voice your talent.' }
         ];
-        const voices = settings?.voices || [{ name: 'Priya M.', text: 'Amazing experience!' }, { name: 'Rahul K.',
-                text: 'Best platform ever.' }
-        ];
+        const voices = settings?.voices || [{ name: 'Priya M.', text: 'Amazing experience!' }, { name: 'Rahul K.', text: 'Best platform ever.' }];
         $('homepage-highlights-grid').innerHTML = highlights.map(h =>
             `<div class="premium-card p-5 text-center border border-[#1f2335]"><div class="text-3xl text-yellow-400"><i class="${h.icon}"></i></div><h4 class="font-bold text-white mt-2">${h.title}</h4><p class="text-xs text-gray-400">${h.text}</p></div>`
         ).join('');
@@ -1827,13 +1778,7 @@
                 trendChartInstance = new Chart(ctx1, {
                     type: 'line',
                     data: { labels: ['Week 1','Week 2','Week 3','Week 4'], datasets: [{ label: 'Registrations', data, borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,0.1)', tension: 0.3 }] },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { labels: { color: '#e2e8f0' } } },
-                        scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0aec0' } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0aec0' } } },
-                        elements: { line: { tension: 0.4, borderWidth: 3 }, point: { radius: 4, backgroundColor: '#a855f7' } },
-                        animation: { duration: 1000 }
-                    }
+                    options: { responsive: true, plugins: { legend: { labels: { color: '#e2e8f0' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0aec0' } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0aec0' } } }, elements: { line: { tension: 0.4, borderWidth: 3 }, point: { radius: 4, backgroundColor: '#a855f7' } }, animation: { duration: 1000 } }
                 });
             } else {
                 trendChartInstance.data.datasets[0].data = data;
@@ -1848,11 +1793,7 @@
                 categoryChartInstance = new Chart(ctx2, {
                     type: 'doughnut',
                     data: { labels: ['Dance','Modelling'], datasets: [{ data: [dance, model], backgroundColor: ['#a855f7','#eab308'] }] },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { labels: { color: '#e2e8f0' } } },
-                        animation: { duration: 800 }
-                    }
+                    options: { responsive: true, plugins: { legend: { labels: { color: '#e2e8f0' } } }, animation: { duration: 800 } }
                 });
             } else {
                 categoryChartInstance.data.datasets[0].data = [dance, model];
@@ -1862,7 +1803,7 @@
     }
 
     // ========================================================================
-    // LOAD TITLES / TYPES / LOCATIONS (for registration)
+    // LOAD TITLES / TYPES / LOCATIONS
     // ========================================================================
     async function loadTitlesForCategory(category) {
         const competitions = await fetchData('competitions');
@@ -1939,16 +1880,13 @@
         });
     }
 
-    // ========================================================================
-    // DEBOUNCED SEARCH
-    // ========================================================================
     function debouncedSearch() {
         clearTimeout(searchTimer);
         searchTimer = setTimeout(() => renderAdminContestants(), 400);
     }
 
     // ========================================================================
-    // ENTER APP & REFRESH
+    // ENTER APP
     // ========================================================================
     function enterApp() {
         $('landing-view').classList.add('hidden');
@@ -2027,9 +1965,6 @@
         }
     }
 
-    // ========================================================================
-    // LOGOUT
-    // ========================================================================
     function logout() {
         auth.signOut().then(() => {
             currentUser = null;
@@ -2040,9 +1975,6 @@
         });
     }
 
-    // ========================================================================
-    // INIT
-    // ========================================================================
     document.addEventListener('DOMContentLoaded', () => {
         renderLandingHighlights();
         const urlParams = new URLSearchParams(window.location.search);
@@ -2055,11 +1987,7 @@
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
-                if (!$('app-view').classList.contains('hidden')) {
-                    // already in app
-                } else {
-                    enterApp();
-                }
+                if (!$('app-view').classList.contains('hidden')) { } else { enterApp(); }
             } else {
                 $('landing-view').classList.remove('hidden');
                 $('app-view').classList.add('hidden');
@@ -2070,56 +1998,23 @@
     // ========================================================================
     // EXPOSE GLOBALLY
     // ========================================================================
-    window.showAuthBox = showAuthBox;
-    window.closeAuth = closeAuth;
-    window.showLoginMethod = showLoginMethod;
-    window.loginWithEmail = loginWithEmail;
-    window.registerUser = registerUser;
-    window.logout = logout;
-    window.toggleSidebar = toggleSidebar;
-    window.closeSidebar = closeSidebar;
-    window.switchPage = switchPage;
-    window.nextRegStep = nextRegStep;
-    window.toggleGuardian = toggleGuardian;
-    window.setupStaff = setupStaff;
-    window.openAddCompetition = openAddCompetition;
-    window.addLocationField = addLocationField;
-    window.removeLocation = removeLocation;
-    window.saveCompetition = saveCompetition;
-    window.deleteCompetition = deleteCompetition;
-    window.openInviteStaff = openInviteStaff;
-    window.sendStaffInvite = sendStaffInvite;
-    window.deleteStaff = deleteStaff;
-    window.renderStaffList = renderStaffList;
-    window.editStaffLocation = editStaffLocation;
-    window.saveStaffEdit = saveStaffEdit;
-    window.renderAdminContestants = renderAdminContestants;
-    window.deleteContestant = deleteContestant;
-    window.editContestant = editContestant;
-    window.toggleDropdown = toggleDropdown;
-    window.openAddHighlightModal = openAddHighlightModal;
-    window.openAddVoiceModal = openAddVoiceModal;
-    window.closeModal = closeModal;
-    window.saveModalItem = saveModalItem;
-    window.updateHighlight = updateHighlight;
-    window.removeHighlight = removeHighlight;
-    window.updateVoice = updateVoice;
-    window.removeVoice = removeVoice;
-    window.resolveFlag = resolveFlag;
-    window.bulkAdvance = bulkAdvance;
-    window.saveStaffEval = saveStaffEval;
-    window.copyReferralCode = copyReferralCode;
-    window.debouncedSearch = debouncedSearch;
-    window.downloadPass = downloadPass;
-    window.sendProfileEmailOTP = sendProfileEmailOTP;
-    window.verifyProfileEmailOTP = verifyProfileEmailOTP;
-    window.autoVerifyProfileEmail = autoVerifyProfileEmail;
-    window.sendProfilePhoneOTP = sendProfilePhoneOTP;
-    window.verifyProfilePhoneOTP = verifyProfilePhoneOTP;
-    window.autoVerifyProfilePhone = autoVerifyProfilePhone;
-    window.toggleFlagContestant = toggleFlagContestant;
-
-    console.log('✅ Full code: Phone login removed, 3D CSS input fix applied.');
+    window.showAuthBox = showAuthBox; window.closeAuth = closeAuth; window.loginWithEmail = loginWithEmail;
+    window.registerUser = registerUser; window.logout = logout; window.toggleSidebar = toggleSidebar;
+    window.closeSidebar = closeSidebar; window.switchPage = switchPage; window.nextRegStep = nextRegStep;
+    window.toggleGuardian = toggleGuardian; window.setupStaff = setupStaff; window.openAddCompetition = openAddCompetition;
+    window.addLocationField = addLocationField; window.removeLocation = removeLocation; window.saveCompetition = saveCompetition;
+    window.deleteCompetition = deleteCompetition; window.openInviteStaff = openInviteStaff; window.sendStaffInvite = sendStaffInvite;
+    window.deleteStaff = deleteStaff; window.renderStaffList = renderStaffList; window.editStaffLocation = editStaffLocation;
+    window.saveStaffEdit = saveStaffEdit; window.renderAdminContestants = renderAdminContestants; window.deleteContestant = deleteContestant;
+    window.editContestant = editContestant; window.toggleDropdown = toggleDropdown; window.openAddHighlightModal = openAddHighlightModal;
+    window.openAddVoiceModal = openAddVoiceModal; window.closeModal = closeModal; window.saveModalItem = saveModalItem;
+    window.updateHighlight = updateHighlight; window.removeHighlight = removeHighlight; window.updateVoice = updateVoice;
+    window.removeVoice = removeVoice; window.resolveFlag = resolveFlag; window.bulkAdvance = bulkAdvance;
+    window.saveStaffEval = saveStaffEval; window.copyReferralCode = copyReferralCode; window.debouncedSearch = debouncedSearch;
+    window.downloadPass = downloadPass; window.sendProfileEmailOTP = sendProfileEmailOTP; window.verifyProfileEmailOTP = verifyProfileEmailOTP;
+    window.autoVerifyProfileEmail = autoVerifyProfileEmail; window.sendProfilePhoneOTP = sendProfilePhoneOTP;
+    window.verifyProfilePhoneOTP = verifyProfilePhoneOTP; window.autoVerifyProfilePhone = autoVerifyProfilePhone; window.toggleFlagContestant = toggleFlagContestant;
 </script>
 </body>
 </html>
+ here
